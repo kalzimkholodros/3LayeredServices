@@ -53,7 +53,7 @@ This project is a microservices architecture example that implements core e-comm
 
 1. Clone the project:
 ```bash
-git clone (https://github.com/kalzimkholodros/3LayeredServices/edit/master/README.md)
+git clone https://github.com/kalzimkholodros/3LayeredServices/edit/master/README.md
 cd <project-folder>
 ```
 
@@ -83,8 +83,9 @@ After starting the services, you can access Swagger documentation at the followi
 The system consists of the following components:
 
 
+![Project-Schema](https://github.com/user-attachments/assets/8bd40bf9-dca2-475f-b387-ba545f3bff0b)
 
-![Uploading Ekran görüntüsü 2025-03-17 043232.png…]()
+
 
 
 
