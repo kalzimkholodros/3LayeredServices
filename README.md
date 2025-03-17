@@ -83,7 +83,10 @@ After starting the services, you can access Swagger documentation at the followi
 The system consists of the following components:
 
 
+
 ![Uploading Ekran görüntüsü 2025-03-17 043232.png…]()
+
+
 
 
 ```
