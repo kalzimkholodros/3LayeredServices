@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"  # RabbitMQ default port
+      - "15672:15672"  # RabbitMQ Management UI
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_MULTIPLE_DATABASES=cartdb,orderdb,productdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+
+  cart-service:
+    build:
+      context: .
+      dockerfile: src/CartService/Dockerfile
+    ports:
+      - "5000:80"
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=cartdb;Username=postgres;Password=postgres
+      - RabbitMQ__Host=rabbitmq
+      - Redis__ConnectionString=redis:6379
+      - REDIS_CONNECTION_STRING=redis:6379
+
+  product-service:
+    build:
+      context: .
+      dockerfile: src/ProductService/Dockerfile
+    ports:
+      - "5001:80"
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=productdb;Username=postgres;Password=postgres
+      - RabbitMQ__Host=rabbitmq
+
+  order-service:
+    build:
+      context: .
+      dockerfile: src/OrderService/Dockerfile
+    ports:
+      - "5002:80"
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=orderdb;Username=postgres;Password=postgres
+      - RabbitMQ__Host=rabbitmq
+
+volumes:
+  rabbitmq_data:
+  redis_data:
+  postgres_data: 
