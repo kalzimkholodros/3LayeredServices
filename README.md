@@ -46,14 +46,14 @@ This project is a microservices architecture example that implements core e-comm
 ### Prerequisites
 
 - Docker Desktop
-- .NET Core 7.0 SDK
+- .NET Core 8.0 SDK
 - Git
 
 ### Installation
 
 1. Clone the project:
 ```bash
-git clone <repository-url>
+git clone (https://github.com/kalzimkholodros/3LayeredServices/edit/master/README.md)
 cd <project-folder>
 ```
 
@@ -83,45 +83,7 @@ After starting the services, you can access Swagger documentation at the followi
 The system consists of the following components:
 
 ```
-┌──────────────────────────────┐      ┌──────────────────────────────┐      ┌──────────────────────────────┐
-│        Product Service       │      │         Cart Service         │      │        Order Service         │
-│                             │      │                              │      │                              │
-│    ┌─────────────────┐      │      │    ┌─────────────────┐      │      │    ┌─────────────────┐      │
-│    │     API Layer   │      │      │    │    API Layer    │      │      │    │    API Layer    │      │
-│    └─────────────────┘      │      │    └─────────────────┘      │      │    └─────────────────┘      │
-│    ┌─────────────────┐      │      │    ┌─────────────────┐      │      │    ┌─────────────────┐      │
-│    │  Business Logic │      │      │    │ Business Logic  │      │      │    │ Business Logic  │      │
-│    └─────────────────┘      │      │    └─────────────────┘      │      │    └─────────────────┘      │
-│    ┌─────────────────┐      │      │    ┌─────────────────┐      │      │    ┌─────────────────┐      │
-│    │  Data Access    │      │      │    │  Data Access    │      │      │    │  Data Access    │      │
-│    └─────────────────┘      │      │    └─────────────────┘      │      │    └─────────────────┘      │
-│           :5001             │      │          :5000              │      │           :5002             │
-└──────────────┬─────────────┘      └──────────────┬─────────────┘      └──────────────┬─────────────┘
-               │                                    │                                    │
-               │                                    │                                    │
-               │                                    │                                    │
-               │                    ┌───────────────┴────────────┐                      │
-               │                    │                            │                      │
-     ┌─────────┴──────────────┐    │     ┌────────────────┐    │    ┌────────────────┴─────────┐
-     │                        │    │     │                │    │    │                          │
-     │       RabbitMQ        │◄───┴────►│     Redis      │◄───┴───►│      PostgreSQL         │
-     │    Message Broker     │          │    Caching     │         │    Database Server      │
-     │         :5672         │          │     :6379      │         │         :5432           │
-     │                        │          │                │         │                          │
-     └────────────────────────┘          └────────────────┘         └──────────────────────────┘
-              ▲                                  ▲                              ▲
-              │                                  │                              │
-              │                                  │                              │
-              │                                  │                              │
-     ┌────────┴───────────┐            ┌────────┴───────────┐        ┌────────┴───────────┐
-     │    Message Queues  │            │   Cache Storage    │        │     Databases      │
-     │                    │            │                    │        │                    │
-     │  ▪ cart_updated   │            │  ▪ Cart Data       │        │  ▪ cartdb         │
-     │  ▪ order_created  │            │  ▪ Product Cache   │        │  ▪ productdb      │
-     │  ▪ product_updated│            │  ▪ Session Data    │        │  ▪ orderdb        │
-     └────────────────────┘            └────────────────────┘        └────────────────────┘
 
-```
 
 ## Database Schema
 
