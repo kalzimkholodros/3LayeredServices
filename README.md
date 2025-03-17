@@ -85,6 +85,9 @@ The system consists of the following components:
 ```
 
 
+![Uploading Ekran görüntüsü 2025-03-17 043232.png…]()
+
+
 ## Database Schema
 
 Each service manages its own database:
