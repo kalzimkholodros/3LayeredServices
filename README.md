@@ -1,6 +1,37 @@
 # E-Commerce Microservices
 
-This project is a microservices architecture example that implements core e-commerce functionalities. The project consists of three main microservices developed using .NET Core.
+A robust, Docker-containerized e-commerce platform built with .NET 8.0, featuring three scalable microservices (Cart, Product, and Order) interconnected through RabbitMQ message queues, utilizing PostgreSQL for persistent storage and Redis for high-performance caching.
+
+```mermaid
+graph TD
+    subgraph Services
+        PS[Product Service]
+        CS[Cart Service]
+        OS[Order Service]
+    end
+
+    subgraph Message Broker
+        RMQ[RabbitMQ]
+    end
+
+    subgraph Databases
+        PSQL[(PostgreSQL)]
+        RD[(Redis Cache)]
+    end
+
+    PS --> RMQ
+    CS --> RMQ
+    OS --> RMQ
+    
+    CS --> RD
+    PS --> PSQL
+    CS --> PSQL
+    OS --> PSQL
+
+    RMQ -->|cart_updated| CS
+    RMQ -->|order_created| OS
+    RMQ -->|product_updated| PS
+```
 
 ## Microservices
 
@@ -33,7 +64,7 @@ This project is a microservices architecture example that implements core e-comm
 
 ## Technologies
 
-- **.NET Core 7.0**: Main development platform
+- **.NET 8.0**: Main development platform
 - **PostgreSQL**: Primary database
 - **Redis**: NoSQL database used for caching
 - **RabbitMQ**: Message broker for inter-service communication
@@ -46,14 +77,14 @@ This project is a microservices architecture example that implements core e-comm
 ### Prerequisites
 
 - Docker Desktop
-- .NET Core 8.0 SDK
+- .NET 8.0 SDK
 - Git
 
 ### Installation
 
 1. Clone the project:
 ```bash
-git clone https://github.com/kalzimkholodros/3LayeredServices/edit/master/README.md
+git clone <repository-url>
 cd <project-folder>
 ```
 
@@ -78,19 +109,6 @@ After starting the services, you can access Swagger documentation at the followi
   - Username: guest
   - Password: guest
 
-## Architecture
-
-The system consists of the following components:
-
-
-![Project-Schema](https://github.com/user-attachments/assets/8bd40bf9-dca2-475f-b387-ba545f3bff0b)
-
-
-
-
-
-
-```
 
 ## Database Schema
 
