@@ -1,2 +1,2 @@
-* text=auto  
-*.cs diff=csharp  
+*.cs linguist-language=ASP.NET  
+*.cshtml linguist-language=ASP.NET  
