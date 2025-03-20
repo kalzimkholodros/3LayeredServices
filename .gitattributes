@@ -1,2 +1,2 @@
-*.cs text eol=lf  
-*.cshtml text eol=lf  
+* text=auto  
+*.cs eol=lf  
